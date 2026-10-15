@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050a2a">
+<title>Simi 13 – PS5 Ajándék</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+<style>
+:root{
+  --bg:#050a2a; --bg2:#0b1b5e; --ink:#fff; --muted:#a9b6ff;
+  --blue:#2f6bff; --pink:#ff4fa3; --yellow:#ffd23f; --green:#3ddc84; --orange:#ff8a3d;
+  --glass:rgba(255,255,255,.09); --glass2:rgba(255,255,255,.16);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{
+  font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;color:var(--ink);
+  background:radial-gradient(1200px 800px at 20% 10%,#1a3bbd 0%,transparent 60%),
+             radial-gradient(1000px 700px at 90% 90%,#7a1fa8 0%,transparent 55%),var(--bg);
+  overflow-x:hidden;min-height:100dvh;
+}
+button{font:inherit;color:inherit;cursor:pointer}
+.hidden,[hidden]{display:none!important}
+
+/* floating jelly blobs in the background */
+.blobs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.blob{position:absolute;border-radius:50% 45% 55% 50%;opacity:.25;filter:blur(2px);animation:float 14s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translate(0,0) rotate(0) scale(1)}50%{transform:translate(30px,-50px) rotate(25deg) scale(1.15)}}
+@keyframes wobble{0%,100%{transform:rotate(-4deg) scale(1,1)}25%{transform:rotate(3deg) scale(1.05,.95)}50%{transform:rotate(4deg) scale(.96,1.05)}75%{transform:rotate(-3deg) scale(1.04,.97)}}
+@keyframes pop{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.1);opacity:1}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translate(0,0) rotate(0)}20%{transform:translate(-6px,2px) rotate(-6deg)}40%{transform:translate(6px,-3px) rotate(6deg)}60%{transform:translate(-5px,3px) rotate(-5deg)}80%{transform:translate(5px,-2px) rotate(5deg)}}
+@keyframes slidein{from{transform:translateX(120%)}to{transform:translateX(0)}}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+
+main{position:relative;z-index:1}
+
+/* BOOT */
+#boot{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;text-align:center;padding:1rem;
+  background:radial-gradient(circle at 50% 40%,#16308f,#030620 70%)}
+#boot .logo{font-size:clamp(4rem,16vw,8rem);animation:wobble 2.4s ease-in-out infinite}
+#boot h1{margin:0;font-size:clamp(1.8rem,6vw,3.2rem);letter-spacing:.04em}
+#boot p{margin:0;color:var(--muted)}
+.start{margin-top:1rem;padding:.9rem 2.2rem;border-radius:999px;border:2px solid #fff;background:var(--glass);font-size:1.2rem;font-weight:bold;letter-spacing:.1em;animation:pulse 1.6s infinite}
+.start:hover,.start:focus-visible{background:#fff;color:#050a2a;outline:none}
+
+/* HOME */
+#home{min-height:100dvh;padding:1rem 1rem 3rem;max-width:1100px;margin:0 auto}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap;padding:.4rem 0 1rem}
+.user{display:flex;align-items:center;gap:.6rem;background:var(--glass);padding:.35rem 1rem .35rem .4rem;border-radius:999px}
+.avatar{width:2.2rem;height:2.2rem;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--yellow));display:grid;place-items:center;font-size:1.2rem}
+.sys{display:flex;align-items:center;gap:.8rem;color:var(--muted);font-size:.95rem}
+.iconbtn{background:var(--glass);border:0;border-radius:50%;width:2.4rem;height:2.4rem;font-size:1.1rem}
+.iconbtn:hover{background:var(--glass2)}
+.hero{text-align:center;padding:1rem 0 1.6rem}
+.hero h2{margin:0;font-size:clamp(2rem,7vw,3.8rem);line-height:1.1;text-shadow:0 4px 0 rgba(0,0,0,.3)}
+.hero h2 .n13{display:inline-block;color:var(--yellow);animation:wobble 3s ease-in-out infinite}
+.hero p{color:var(--muted);margin:.6rem 0 0;font-size:1.1rem}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem}
+.tile{position:relative;border:2px solid transparent;border-radius:24px;padding:1.2rem .8rem;min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;text-align:center;
+  background:var(--glass);backdrop-filter:blur(6px);transition:transform .18s cubic-bezier(.3,1.6,.5,1),background .2s,box-shadow .2s}
+.tile .ic{font-size:3.2rem;transition:transform .2s}
+.tile .lb{font-weight:bold;font-size:1.1rem}
+.tile .sub{font-size:.85rem;color:var(--muted)}
+.tile:hover,.tile:focus-visible{transform:scale(1.07);background:var(--glass2);border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.18),0 12px 30px rgba(0,0,0,.4);outline:none}
+.tile:hover .ic,.tile:focus-visible .ic{animation:wobble 1s infinite}
+.tile.locked{opacity:.55}
+.tile .new{position:absolute;top:10px;right:12px;background:var(--pink);font-size:.7rem;font-weight:bold;padding:.15rem .5rem;border-radius:999px;animation:pulse 1.2s infinite}
+.hint{text-align:center;color:var(--muted);margin-top:1.6rem;font-size:.9rem}
+.hint kbd{background:var(--glass2);border-radius:6px;padding:.1rem .45rem}
+
+/* PANELS */
+.panel{position:fixed;inset:0;z-index:20;overflow-y:auto;padding:1rem;
+  background:radial-gradient(900px 600px at 70% 0%,#1d3fc7 0%,transparent 60%),#060c33;animation:pop .25s ease-out}
+.panel .inner{max-width:760px;margin:0 auto;padding-bottom:3rem}
+.back{background:var(--glass);border:0;border-radius:999px;padding:.55rem 1.1rem;margin-bottom:1rem}
+.back:hover,.back:focus-visible{background:#fff;color:#050a2a;outline:none}
+.panel h3{font-size:clamp(1.6rem,5vw,2.3rem);margin:.2rem 0 1rem}
+.card{background:var(--glass);border-radius:22px;padding:1.2rem;margin-bottom:1rem}
+.btn{border:0;border-radius:999px;padding:.8rem 1.6rem;font-weight:bold;font-size:1.05rem;background:linear-gradient(135deg,var(--blue),#7a4dff);box-shadow:0 5px 0 #1b2f87;transition:transform .1s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #1b2f87}
+.btn.alt{background:linear-gradient(135deg,var(--pink),var(--orange));box-shadow:0 5px 0 #96305f}
+.btn.alt:active{box-shadow:0 1px 0 #96305f}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.center{text-align:center}
+
+/* GIFT */
+.giftbox{font-size:clamp(7rem,32vw,12rem);line-height:1;user-select:none;cursor:pointer;background:none;border:0;display:block;margin:1rem auto;animation:wobble 3s ease-in-out infinite}
+.giftbox.shake{animation:shake .45s}
+.meter{height:14px;border-radius:99px;background:var(--glass);overflow:hidden;max-width:320px;margin:.5rem auto}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--yellow),var(--pink));transition:width .25s}
+.gcard{border-radius:24px;padding:1.4rem;background:linear-gradient(135deg,#1d3fc7,#7a1fa8 60%,#ff4fa3);box-shadow:0 20px 50px rgba(0,0,0,.45);animation:pop .6s;position:relative;overflow:hidden}
+.gcard .ps{font-weight:bold;letter-spacing:.15em;font-size:.8rem;opacity:.9}
+.gcard .game{font-size:clamp(2rem,9vw,3.2rem);font-weight:900;line-height:1;margin:.6rem 0;text-shadow:0 4px 0 rgba(0,0,0,.3)}
+.gcard .code{font-family:ui-monospace,Menlo,Consolas,monospace;background:rgba(0,0,0,.35);padding:.5rem .8rem;border-radius:12px;display:inline-block;letter-spacing:.12em;margin:.4rem 0}
+.gcard ul{margin:.6rem 0 0;padding-left:1.2rem}
+.prog{height:18px;border-radius:99px;background:rgba(0,0,0,.35);overflow:hidden;margin:.8rem 0 .4rem}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#7dffb4);transition:width .35s}
+#redeemMsg{min-height:1.6em;font-size:.95rem}
+
+/* MISSIONS */
+.mission{display:flex;gap:.8rem;align-items:flex-start;padding:.8rem;border-radius:16px;background:var(--glass);margin-bottom:.6rem;cursor:pointer;text-align:left;width:100%;border:2px solid transparent}
+.mission:hover,.mission:focus-visible{border-color:#fff;outline:none}
+.mission .box{flex:0 0 auto;width:1.7rem;height:1.7rem;border-radius:8px;border:3px solid var(--muted);display:grid;place-items:center;font-size:1rem}
+.mission.done .box{background:var(--green);border-color:var(--green);color:#052}
+.mission.done .t{text-decoration:line-through;opacity:.7}
+.mission .t{font-weight:bold}
+.mission .d{font-size:.88rem;color:var(--muted)}
+textarea{width:100%;min-height:90px;border-radius:14px;border:2px solid var(--glass2);background:rgba(0,0,0,.3);color:#fff;padding:.7rem;font:inherit;resize:vertical}
+
+/* WOBBLY MAKER */
+.stage{display:grid;place-items:center;padding:.5rem}
+.stage svg{width:min(260px,70vw);height:auto;overflow:visible}
+.wob{animation:wobble 2s ease-in-out infinite;transform-origin:50% 90%}
+.cname{font-size:1.6rem;font-weight:900;text-align:center}
+.cjob{text-align:center;color:var(--muted);margin-bottom:.8rem}
+.stat{display:grid;grid-template-columns:110px 1fr 34px;gap:.5rem;align-items:center;margin:.3rem 0;font-size:.9rem}
+.stat .bar{height:12px;border-radius:99px;background:var(--glass);overflow:hidden}
+.stat .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--pink));transition:width .5s}
+
+/* COIN RUSH */
+.hud{display:flex;justify-content:space-between;font-weight:bold;font-size:1.1rem;margin-bottom:.5rem}
+#arena{position:relative;height:min(55vh,420px);border-radius:24px;background:linear-gradient(180deg,#1a6bff33,#3ddc8433);border:2px dashed var(--glass2);overflow:hidden;touch-action:manipulation}
+.coin{position:absolute;font-size:2.6rem;border:0;background:none;padding:0;line-height:1;animation:pop .2s;user-select:none}
+.arenamsg{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:1rem;pointer-events:none}
+
+/* WHO STARTS */
+.pads{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
+.pad{border-radius:22px;padding:1.2rem .5rem;text-align:center;background:var(--glass);border:3px solid transparent;transition:.15s}
+.pad .ic{font-size:3rem}
+.pad .nm{font-weight:900;font-size:1.3rem}
+.pad.on{border-color:var(--yellow);background:rgba(255,210,63,.2);transform:scale(1.06)}
+.pad.win{border-color:var(--green);background:rgba(61,220,132,.25);transform:scale(1.1)}
+#stake{min-height:3em;text-align:center;font-size:1.1rem}
+
+/* TROPHIES */
+.trophy{display:flex;gap:.9rem;align-items:center;padding:.7rem .9rem;border-radius:16px;background:var(--glass);margin-bottom:.6rem}
+.trophy .tic{font-size:2rem;filter:grayscale(1) opacity(.4)}
+.trophy.got .tic{filter:none}
+.trophy .tn{font-weight:bold}
+.trophy .td{font-size:.85rem;color:var(--muted)}
+.trophy.got{background:rgba(255,210,63,.14)}
+
+/* TOAST */
+#toasts{position:fixed;top:14px;right:14px;z-index:90;display:flex;flex-direction:column;gap:.5rem;pointer-events:none}
+.toast{display:flex;gap:.7rem;align-items:center;background:#0d1230ee;border:1px solid var(--glass2);border-radius:14px;padding:.6rem 1rem;box-shadow:0 10px 30px rgba(0,0,0,.5);animation:slidein .4s cubic-bezier(.3,1.4,.5,1);max-width:300px}
+.toast .tic{font-size:1.8rem}
+.toast small{display:block;color:var(--muted)}
+canvas#confetti{position:fixed;inset:0;z-index:95;pointer-events:none}
+footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1rem}
+@media (max-width:520px){.stat{grid-template-columns:90px 1fr 30px}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important}}
+</style>
+</head>
+<body>
+<div class="blobs" aria-hidden="true"></div>
+<canvas id="confetti"></canvas>
+<div id="toasts" aria-live="polite"></div>
+
+<!-- BOOT SCREEN -->
+<div id="boot">
+  <div class="logo">🎮</div>
+  <h1>Bekapcsolás…</h1>
+  <p>Valami készül neked, Simi.</p>
+  <button class="start" id="startBtn">▶ NYOMD MEG A START-OT</button>
+</div>
+
+<main id="home" hidden>
+  <div class="topbar">
+    <div class="user"><div class="avatar">😎</div><b>Simi</b></div>
+    <div class="sys">
+      <span id="trophyCount">🏆 0/8</span>
+      <span id="clock">--:--</span>
+      <button class="iconbtn" id="muteBtn" title="Hang">🔊</button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h2>Boldog <span class="n13">13.</span> szülinapot,<br>Simi! 🎉</h2>
+    <p>A PS5-öd ma érkezik. A bátyádtól pedig valami, amit együtt fogunk használni.</p>
+  </div>
+
+  <div class="tiles" id="tiles">
+    <button class="tile" data-open="gift"><span class="new">ÚJ</span><span class="ic">🎁</span><span class="lb">Ajándék</span><span class="sub">Kezdd itt!</span></button>
+    <button class="tile locked" data-open="missions" data-lock><span class="ic">🎯</span><span class="lb">Küldetések</span><span class="sub">???</span></button>
+    <button class="tile locked" data-open="maker" data-lock><span class="ic">🧬</span><span class="lb">Karaktergyártó</span><span class="sub">???</span></button>
+    <button class="tile locked" data-open="coins" data-lock><span class="ic">🪙</span><span class="lb">Coin Rush</span><span class="sub">???</span></button>
+    <button class="tile locked" data-open="who" data-lock><span class="ic">🆚</span><span class="lb">Ki kezd?</span><span class="sub">???</span></button>
+    <button class="tile" data-open="trophies"><span class="ic">🏆</span><span class="lb">Trófeák</span><span class="sub">Gyűjtsd be mind!</span></button>
+  </div>
+  <p class="hint">Nyilak / <kbd>Enter</kbd> / <kbd>Esc</kbd> – vagy a PS5-kontroller iránygombjai, ✕ és ◯ is működnek 😉</p>
+  <footer>Készítette a bátyád ❤️ – 13. szülinapi ajándék</footer>
+</main>
+
+<!-- GIFT -->
+<section class="panel" id="p-gift" hidden>
+  <div class="inner">
+    <button class="back" data-back>◯ Vissza</button>
+    <h3>🎁 Ajándék</h3>
+    <div id="giftStage" class="center">
+      <p>Valaki ide csomagolt valamit neked. Rázd meg, hogy kinyíljon!</p>
+      <button class="giftbox" id="giftbox" aria-label="Ajándékdoboz">🎁</button>
+      <div class="meter"><i id="meterFill"></i></div>
+      <p id="giftHint">Kattints rá! (5×)</p>
+    </div>
+    <div id="giftCard" hidden>
+      <div class="gcard">
+        <div class="ps">🎮 PLAYSTATION STORE · AJÁNDÉKKÁRTYA</div>
+        <div class="game">WOBBLY LIFE</div>
+        <div>Egy teljesen hülye, kocsonyás világ – <b>kettesben, split screenen</b>.</div>
+        <div class="code" id="codeText">SIMI-13-WOBL-YLIF</div>
+        <ul>
+          <li>Érvényes: <b>1 játék</b> a PS Store-ból</li>
+          <li>Bónusz: <b>végtelen röhögés</b> (nem lejáró)</li>
+          <li>Feltétel: a bátyád is játszik, nem csak nézi</li>
+        </ul>
+      </div>
+      <div class="card center" style="margin-top:1rem">
+        <p style="margin-top:0">Még egyikünk sem játszott vele – tehát mindketten ugyanolyan béna kezdők leszünk. 😈</p>
+        <button class="btn alt" id="redeemBtn">💳 Kód beváltása</button>
+        <div class="prog" hidden id="prog"><i id="progFill"></i></div>
+        <div id="redeemMsg"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSIONS -->
+<section class="panel" id="p-missions" hidden>
+  <div class="inner">
+    <button class="back" data-back>◯ Vissza</button>
+    <h3>🎯 Wobbly küldetések</h3>
+    <p style="color:var(--muted)">Pipáld ki, amit már megcsináltunk. Hivatalos szabály: aki röhög, az nyer.</p>
+    <div id="missionList"></div>
+    <div class="card">
+      <b>📝 Mi volt eddig a legviccesebb pillanat?</b>
+      <textarea id="notes" placeholder="Ide írd be, mi történt…"></textarea>
+    </div>
+  </div>
+</section>
+
+<!-- MAKER -->
+<section class="panel" id="p-maker" hidden>
+  <div class="inner">
+    <button class="back" data-back>◯ Vissza</button>
+    <h3>🧬 Wobbly karaktergyártó</h3>
+    <div class="card">
+      <div class="stage" id="stage"></div>
+      <div class="cname" id="cname"></div>
+      <div class="cjob" id="cjob"></div>
+      <div id="stats"></div>
+      <div class="center" style="margin-top:1rem"><button class="btn" id="rollBtn">🎲 Új karakter</button></div>
+    </div>
+    <p style="color:var(--muted);text-align:center">Ez csak buli – a játékban majd te magad rakod össze a kinézetedet.</p>
+  </div>
+</section>
+
+<!-- COINS -->
+<section class="panel" id="p-coins" hidden>
+  <div class="inner">
+    <button class="back" data-back>◯ Vissza</button>
+    <h3>🪙 Coin Rush</h3>
+    <div class="hud"><span>⏱ <span id="timeLeft">20</span> mp</span><span>🪙 <span id="score">0</span></span><span>🏅 Rekord: <span id="best">0</span></span></div>
+    <div id="arena"><div class="arenamsg" id="arenaMsg"><div>Kapd el az érméket! 🪙 = +1 · 🌟 = +5 · 🍌 = −3<br><br><b>Indítás lent ↓</b></div></div></div>
+    <div class="center" style="margin-top:1rem"><button class="btn alt" id="coinStart">▶ Indítás</button></div>
+  </div>
+</section>
+
+<!-- WHO -->
+<section class="panel" id="p-who" hidden>
+  <div class="inner">
+    <button class="back" data-back>◯ Vissza</button>
+    <h3>🆚 Ki kezd?</h3>
+    <p style="color:var(--muted)">Mert az „én vagyok az 1-es játékos" vita mindig kitör. Döntsön a sors.</p>
+    <div class="pads">
+      <div class="pad" id="padA"><div class="ic">🕹️</div><div class="nm">SIMI</div></div>
+      <div class="pad" id="padB"><div class="ic">🎮</div><div class="nm">BÁTYÓ</div></div>
+    </div>
+    <div id="stake"></div>
+    <div class="center"><button class="btn" id="spinBtn">🎰 Sorsolj!</button></div>
+  </div>
+</section>
+
+<!-- TROPHIES -->
+<section class="panel" id="p-trophies" hidden>
+  <div class="inner">
+    <button class="back" data-back>◯ Vissza</button>
+    <h3>🏆 Trófeák</h3>
+    <div id="trophyList"></div>
+  </div>
+</section>
+
+<script>
+(() => {
+"use strict";
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const rnd = n => Math.floor(Math.random()*n);
+const pick = a => a[rnd(a.length)];
+const KEY = "simi13_v1";
+
+/* ---------- state ---------- */
+let S = {gift:false, trophies:{}, missions:{}, notes:"", best:0, rolls:0};
+try { Object.assign(S, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch(e){}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} };
+
+/* ---------- audio ---------- */
+let actx = null, muted = false;
+function tone(freq, dur=.12, type="sine", when=0, vol=.08){
+  if (muted) return;
+  try {
+    actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+    const t = actx.currentTime + when, o = actx.createOscillator(), g = actx.createGain();
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t+dur);
+    o.connect(g).connect(actx.destination); o.start(t); o.stop(t+dur);
+  } catch(e){}
+}
+const sfx = {
+  tick: () => tone(660,.05,"square",0,.03),
+  ok:   () => { tone(520,.08,"triangle"); tone(780,.12,"triangle",.08); },
+  bad:  () => { tone(200,.18,"sawtooth",0,.05); },
+  coin: () => { tone(988,.06,"square",0,.04); tone(1319,.1,"square",.06,.04); },
+  trophy: () => [784,988,1175,1568].forEach((f,i)=>tone(f,.25,"triangle",i*.11,.08)),
+  win: () => [523,659,784,1047].forEach((f,i)=>tone(f,.2,"triangle",i*.1,.08)),
+};
+$("#muteBtn").onclick = () => { muted = !muted; $("#muteBtn").textContent = muted ? "🔇" : "🔊"; };
+
+/* ---------- background blobs ---------- */
+(() => {
+  const cols = ["#ff4fa3","#2f6bff","#ffd23f","#3ddc84","#ff8a3d"];
+  for (let i=0;i<9;i++){
+    const b = document.createElement("div"); b.className = "blob";
+    const s = 90 + rnd(170);
+    b.style.cssText = `width:${s}px;height:${s}px;left:${rnd(100)}%;top:${rnd(100)}%;background:${pick(cols)};animation-delay:${-rnd(14)}s;animation-duration:${10+rnd(10)}s`;
+    $(".blobs").appendChild(b);
+  }
+})();
+
+/* ---------- confetti ---------- */
+const cv = $("#confetti"), cx = cv.getContext("2d");
+let parts = [], raf = 0;
+function fit(){ cv.width = innerWidth; cv.height = innerHeight; }
+addEventListener("resize", fit); fit();
+function confetti(n=140){
+  const cols = ["#ff4fa3","#2f6bff","#ffd23f","#3ddc84","#ff8a3d","#fff"];
+  for (let i=0;i<n;i++) parts.push({x:innerWidth/2+(Math.random()-.5)*160,y:innerHeight*.45,vx:(Math.random()-.5)*16,vy:-Math.random()*16-4,
+    s:6+Math.random()*8,r:Math.random()*6,vr:(Math.random()-.5)*.4,c:pick(cols),life:140+rnd(60)});
+  if (!raf) raf = requestAnimationFrame(stepConfetti);
+}
+function stepConfetti(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  parts = parts.filter(p => p.life-- > 0 && p.y < cv.height+20);
+  for (const p of parts){
+    p.vy += .35; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.vx *= .99;
+    cx.save(); cx.translate(p.x,p.y); cx.rotate(p.r); cx.fillStyle = p.c; cx.fillRect(-p.s/2,-p.s/3,p.s,p.s/1.6); cx.restore();
+  }
+  raf = parts.length ? requestAnimationFrame(stepConfetti) : 0;
+  if (!raf) cx.clearRect(0,0,cv.width,cv.height);
+}
+
+/* ---------- trophies ---------- */
+const TROPHIES = [
+  {id:"boot",   ic:"🥉", n:"Bekapcsolva",       d:"Megnyomtad a START-ot."},
+  {id:"gift",   ic:"🥉", n:"Kibontó",           d:"Kinyitottad az ajándékot."},
+  {id:"redeem", ic:"🥈", n:"Kódvadász",         d:"Beváltottad a kódot."},
+  {id:"maker",  ic:"🥉", n:"Genetikai kísérlet",d:"Legyártottál 5 wobbly karaktert."},
+  {id:"coins",  ic:"🥈", n:"Pénzesember",       d:"Szerezz 15+ pontot a Coin Rushban."},
+  {id:"who",    ic:"🥉", n:"A sors keze",       d:"Sorsoltál, ki kezd."},
+  {id:"mis",    ic:"🥇", n:"Munkaerő",          d:"Pipálj ki 3 küldetést."},
+  {id:"plat",   ic:"💎", n:"PLATINA: 13 éves lettél", d:"Szerezd meg az összes többi trófeát."},
+];
+function unlock(id){
+  if (S.trophies[id]) return;
+  S.trophies[id] = Date.now(); save();
+  const t = TROPHIES.find(x => x.id === id);
+  const el = document.createElement("div"); el.className = "toast";
+  el.innerHTML = `<span class="tic">${t.ic}</span><div><b>Trófea megszerezve!</b><small>${t.n}</small></div>`;
+  $("#toasts").appendChild(el); sfx.trophy();
+  setTimeout(() => el.remove(), 4200);
+  renderTrophies();
+  if (id !== "plat" && TROPHIES.filter(x => x.id !== "plat").every(x => S.trophies[x.id])) setTimeout(() => { unlock("plat"); confetti(220); }, 900);
+}
+function renderTrophies(){
+  const got = TROPHIES.filter(t => S.trophies[t.id]).length;
+  $("#trophyCount").textContent = `🏆 ${got}/${TROPHIES.length}`;
+  $("#trophyList").innerHTML = TROPHIES.map(t => `<div class="trophy ${S.trophies[t.id]?"got":""}"><span class="tic">${t.ic}</span><div><div class="tn">${S.trophies[t.id]||t.id!=="plat"?t.n:"???"}</div><div class="td">${t.d}</div></div></div>`).join("");
+}
+
+/* ---------- navigation ---------- */
+let current = null;
+function open(id){
+  current = id;
+  $("#home").hidden = true;
+  $$(".panel").forEach(p => p.hidden = p.id !== "p-"+id);
+  $("#p-"+id).scrollTop = 0;
+  sfx.ok();
+  const f = $("#p-"+id+" .back"); if (f) f.focus({preventScroll:true});
+}
+function back(){
+  if (!current) return;
+  stopCoins();
+  $$(".panel").forEach(p => p.hidden = true);
+  $("#home").hidden = false; sfx.tick();
+  const last = $(`.tile[data-open="${current}"]`); current = null;
+  if (last) last.focus({preventScroll:true});
+}
+function applyLocks(){
+  $$(".tile[data-lock]").forEach(t => {
+    t.classList.toggle("locked", !S.gift);
+    const names = {missions:"Küldetések",maker:"Karaktergyártó",coins:"Coin Rush",who:"Ki kezd?"};
+    $(".sub", t).textContent = S.gift ? "Játssz!" : "🔒 Előbb az ajándék";
+  });
+  const nw = $(".tile[data-open=gift] .new"); if (nw) nw.hidden = S.gift;
+}
+$$(".tile").forEach(t => t.addEventListener("click", () => {
+  if (t.hasAttribute("data-lock") && !S.gift){ sfx.bad(); const s=$(".sub",t); s.textContent="🔒 Nyisd ki az ajándékot!"; t.style.animation="shake .4s"; setTimeout(()=>t.style.animation="",420); return; }
+  open(t.dataset.open);
+}));
+$$("[data-back]").forEach(b => b.addEventListener("click", back));
+
+/* boot */
+$("#startBtn").onclick = () => {
+  sfx.win(); $("#boot").hidden = true; $("#home").hidden = false;
+  confetti(60); unlock("boot"); applyLocks();
+  $(".tile").focus({preventScroll:true});
+};
+
+/* keyboard + gamepad navigation */
+function moveFocus(dir){
+  const list = $$(".tile");
+  if ($("#home").hidden) return;
+  let i = list.indexOf(document.activeElement); if (i < 0) i = 0; else i = (i + dir + list.length) % list.length;
+  list[i].focus(); sfx.tick();
+}
+addEventListener("keydown", e => {
+  if (e.target.tagName === "TEXTAREA") { if (e.key === "Escape") e.target.blur(); return; }
+  if (e.key === "ArrowRight" || e.key === "ArrowDown") { moveFocus(1); e.preventDefault(); }
+  else if (e.key === "ArrowLeft" || e.key === "ArrowUp") { moveFocus(-1); e.preventDefault(); }
+  else if (e.key === "Escape" || e.key === "Backspace") back();
+});
+let prevPad = {};
+function padLoop(){
+  const gp = (navigator.getGamepads ? [...navigator.getGamepads()] : []).find(Boolean);
+  if (gp){
+    const b = i => gp.buttons[i] && gp.buttons[i].pressed;
+    const edge = (name, now, fn) => { if (now && !prevPad[name]) fn(); prevPad[name] = now; };
+    edge("r", b(15) || b(13), () => moveFocus(1));
+    edge("l", b(14) || b(12), () => moveFocus(-1));
+    edge("x", b(0), () => { const a = document.activeElement; if (a && a.click) a.click(); });
+    edge("o", b(1), back);
+  }
+  requestAnimationFrame(padLoop);
+}
+requestAnimationFrame(padLoop);
+
+/* clock */
+const tick = () => { const d = new Date(); $("#clock").textContent = d.toLocaleTimeString("hu-HU",{hour:"2-digit",minute:"2-digit"}); };
+tick(); setInterval(tick, 20000);
+
+/* ---------- GIFT ---------- */
+let clicks = 0;
+const NEED = 5;
+const hints = ["Kattints rá! (5×)","Mozog! 😮 (4×)","Valami van benne… (3×)","Majdnem! (2×)","MÉG EGYSZER! (1×)"];
+$("#giftbox").onclick = () => {
+  if (clicks >= NEED) return;
+  clicks++; sfx.tick(); tone(300+clicks*120, .12, "square", 0, .05);
+  const g = $("#giftbox"); g.classList.remove("shake"); void g.offsetWidth; g.classList.add("shake");
+  $("#meterFill").style.width = (clicks/NEED*100)+"%";
+  $("#giftHint").textContent = hints[clicks] || "";
+  if (clicks >= NEED) setTimeout(revealGift, 350);
+};
+function revealGift(){
+  S.gift = true; save();
+  $("#giftStage").hidden = true; $("#giftCard").hidden = false;
+  confetti(200); sfx.win(); unlock("gift"); applyLocks();
+}
+$("#redeemBtn").onclick = async () => {
+  const btn = $("#redeemBtn"), msg = $("#redeemMsg"), fill = $("#progFill");
+  btn.disabled = true; $("#prog").hidden = false;
+  const steps = [
+    [10,"Kapcsolódás a PlayStation Network-höz…"],
+    [28,"Kód ellenőrzése… (SIMI-13-WOBL-YLIF)"],
+    [45,"Bátyó pénztárcájának átvizsgálása… 👀"],
+    [62,"Wobbly Life felkészítése a káoszra…"],
+    [80,"Kocsonya hozzáadása a tartalomhoz…"],
+    [99,"Letöltés: 99%…"],
+  ];
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  for (const [p, m] of steps){ fill.style.width = p+"%"; msg.textContent = m; sfx.tick(); await wait(900); }
+  msg.innerHTML = "😂 Vicc volt! A valódi letöltést <b>reggel, együtt</b> indítjuk el a PS5-ön, miután beállítottunk mindent.";
+  fill.style.width = "100%"; sfx.win(); confetti(120); unlock("redeem");
+  btn.textContent = "✅ Beváltva (reggel élesben is!)";
+};
+
+/* ---------- MISSIONS ---------- */
+const MISSIONS = [
+  ["Első belépés","Indítsátok el a játékot, és hagyjátok, hogy mindketten csináljatok egy karaktert."],
+  ["Split screen élesben","Kapcsoljatok át kettős képernyőre. Ki talál rá először a másik karakterére?"],
+  ["Első munka","Vállaljatok el egy melót, és próbáljátok meg komolyan befejezni (nem fog sikerülni)."],
+  ["Közös katasztrófa","Csináljatok valami olyat, amit azonnal megbántok. Röhögés kötelező."],
+  ["Esés-bajnokság","Keressetek egy magas helyet. Ki zuhan látványosabban?"],
+  ["Felfedezők","Fedezzetek fel egy helyet, ahol még egyikünk sem járt."],
+  ["Közös terv","Találjatok ki egy hülye tervet, és próbáljátok meg végrehajtani csapatban."],
+  ["Visszavágó","Egy tetszőleges kihívás – a vesztes hozza a nasit. 🍿"],
+];
+function renderMissions(){
+  $("#missionList").innerHTML = MISSIONS.map((m,i) => `<button class="mission ${S.missions[i]?"done":""}" data-i="${i}"><span class="box">${S.missions[i]?"✓":""}</span><span><div class="t">${m[0]}</div><div class="d">${m[1]}</div></span></button>`).join("");
+  $$("#missionList .mission").forEach(b => b.onclick = () => {
+    const i = b.dataset.i; S.missions[i] = !S.missions[i]; save(); S.missions[i] ? sfx.ok() : sfx.tick(); renderMissions();
+    if (Object.values(S.missions).filter(Boolean).length >= 3) unlock("mis");
+    if (Object.values(S.missions).filter(Boolean).length === MISSIONS.length) { confetti(200); sfx.win(); }
+  });
+}
+$("#notes").value = S.notes;
+$("#notes").addEventListener("input", e => { S.notes = e.target.value; save(); });
+
+/* ---------- WOBBLY MAKER ---------- */
+const FIRST = ["Pufi","Zizi","Gumi","Bukfenc","Mókus","Rotyi","Cuki","Ficánka","Tökmag","Dagi","Pötyi","Bocsi"];
+const LAST  = ["Wobbly","Csúszkás","Lötyögős","Bénázó","Pottyos","McKocsonya","Pillanatnyi","Kapkodó","Ugrabugra","Hatalmas"];
+const JOBS  = ["Pizzafutár, aki mindig eltéved","Szemétszedő a nagy nevetés ügyében","Gyümölcsszedő (a fele a hasába kerül)","Hivatásos lezuhanó","Főállású gödörbe-eső","Kamionsofőr, akinek nincs jogsija","Építésvezető (építi is, rombolja is)","Titkos ügynök, aki mindig feltűnő"];
+const POWERS = ["Bárhonnan lezuhan, mégis feláll","Rosszkor érkezik mindenhová","Egy mondattal elrontja a tervet","Mindig a legrosszabb úton megy","Bárkit megnevettet, közben ő is","Megment mindenkit – csak nem szándékosan"];
+const HATS = ["🎩","👑","🧢","🤠","⛑️","🎓","🪖","🍕","🐥"];
+const STATS = ["Nevetés","Bénázás","Sebesség","Szerencse","Kocsonyaság"];
+function roll(first){
+  const hue = rnd(360), body = `hsl(${hue} 85% 60%)`, dark = `hsl(${hue} 85% 40%)`;
+  const hat = pick(HATS), eye = 14 + rnd(7), mouth = pick(["M 85 125 Q 100 145 115 125","M 85 130 Q 100 120 115 130","M 88 125 Q 100 150 112 125 Z"]);
+  $("#stage").innerHTML = `<svg viewBox="0 0 200 240"><g class="wob">
+    <rect x="52" y="168" width="32" height="56" rx="16" fill="${dark}"/><rect x="116" y="168" width="32" height="56" rx="16" fill="${dark}"/>
+    <rect x="18" y="100" width="34" height="62" rx="17" fill="${dark}" transform="rotate(20 35 100)"/><rect x="148" y="100" width="34" height="62" rx="17" fill="${dark}" transform="rotate(-20 165 100)"/>
+    <ellipse cx="100" cy="125" rx="62" ry="68" fill="${body}"/><ellipse cx="78" cy="90" rx="16" ry="10" fill="#fff" opacity=".35"/>
+    <circle cx="78" cy="105" r="${eye}" fill="#fff"/><circle cx="122" cy="105" r="${eye}" fill="#fff"/>
+    <circle cx="${80+rnd(4)}" cy="${106+rnd(4)}" r="6" fill="#111"/><circle cx="${120-rnd(4)}" cy="${106+rnd(4)}" r="6" fill="#111"/>
+    <path d="${mouth}" fill="${mouth.endsWith("Z")?"#7a1030":"none"}" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+    <text x="100" y="62" font-size="54" text-anchor="middle">${hat}</text></g></svg>`;
+  $("#cname").textContent = `${pick(FIRST)} ${pick(LAST)}`;
+  $("#cjob").innerHTML = `💼 ${pick(JOBS)}<br>✨ Szupererő: ${pick(POWERS)}`;
+  $("#stats").innerHTML = STATS.map(s => { const v = 20 + rnd(81); return `<div class="stat"><span>${s}</span><div class="bar"><i style="width:0" data-w="${v}"></i></div><b>${v}</b></div>`; }).join("");
+  requestAnimationFrame(() => $$("#stats i").forEach(i => i.style.width = i.dataset.w + "%"));
+  if (!first){ S.rolls++; save(); sfx.coin(); if (S.rolls >= 5) unlock("maker"); }
+}
+$("#rollBtn").onclick = () => roll(false);
+roll(true);
+
+/* ---------- COIN RUSH ---------- */
+let coinTimer = 0, spawnTimer = 0, score = 0, left = 0, running = false;
+$("#best").textContent = S.best;
+function spawn(){
+  const a = $("#arena"), el = document.createElement("button");
+  const r = Math.random(), kind = r < .12 ? "star" : r < .3 ? "banana" : "coin";
+  el.className = "coin"; el.textContent = {coin:"🪙", star:"🌟", banana:"🍌"}[kind];
+  el.style.left = rnd(Math.max(1, a.clientWidth - 50)) + "px"; el.style.top = rnd(Math.max(1, a.clientHeight - 50)) + "px";
+  const hit = ev => {
+    ev.preventDefault();
+    if (!running) return;
+    if (kind === "banana"){ score = Math.max(0, score - 3); sfx.bad(); a.style.animation="shake .3s"; setTimeout(()=>a.style.animation="",320); }
+    else { score += kind === "star" ? 5 : 1; sfx.coin(); }
+    $("#score").textContent = score; el.remove();
+  };
+  el.addEventListener("pointerdown", hit);
+  a.appendChild(el);
+  setTimeout(() => el.remove(), kind === "star" ? 900 : 1300);
+}
+function startCoins(){
+  stopCoins(); score = 0; left = 20; running = true;
+  $("#score").textContent = 0; $("#timeLeft").textContent = left; $("#arenaMsg").hidden = true;
+  $("#coinStart").disabled = true;
+  spawn();
+  spawnTimer = setInterval(spawn, 430);
+  coinTimer = setInterval(() => {
+    left--; $("#timeLeft").textContent = left;
+    if (left <= 0) endCoins();
+  }, 1000);
+}
+function stopCoins(){
+  running = false; clearInterval(coinTimer); clearInterval(spawnTimer);
+  $$("#arena .coin").forEach(c => c.remove());
+  const b = $("#coinStart"); if (b) b.disabled = false;
+}
+function endCoins(){
+  stopCoins();
+  const m = $("#arenaMsg"); m.hidden = false;
+  const newBest = score > S.best;
+  if (newBest){ S.best = score; save(); $("#best").textContent = score; }
+  const verdict = score >= 25 ? "Atya, gép vagy! 🤖" : score >= 15 ? "Szép munka! 💪" : score >= 8 ? "Nem rossz, de menni fog ez jobban is." : "Ez még a bátyád is megverné… 😏";
+  m.innerHTML = `<div><div style="font-size:2.4rem;font-weight:900">${score} pont</div>${newBest?"<div>🏅 Új rekord!</div>":""}<div>${verdict}</div></div>`;
+  $("#coinStart").textContent = "🔁 Még egyszer";
+  if (score >= 15){ unlock("coins"); confetti(100); sfx.win(); }
+}
+$("#coinStart").onclick = startCoins;
+
+/* ---------- WHO STARTS ---------- */
+const STAKES = [
+  "A vesztes viszi le a szemetet. 🗑️","A vesztes csinál a másiknak szendvicset. 🥪","A győztes választ első pályát/küldetést. 🎯",
+  "A vesztesnek egy kört hátrányból kell kezdenie. 🐢","A vesztes beszél 5 percig csak „wobbly” hangokon. 🗣️","Aki veszít, az lesz a „csapat bénája” egész este. 🤡"
+];
+let spinning = false;
+$("#spinBtn").onclick = () => {
+  if (spinning) return; spinning = true;
+  const A = $("#padA"), B = $("#padB"); $("#stake").textContent = "";
+  A.classList.remove("win"); B.classList.remove("win");
+  let n = 0, total = 16 + rnd(8);
+  const id = setInterval(() => {
+    const aOn = n % 2 === 0;
+    A.classList.toggle("on", aOn); B.classList.toggle("on", !aOn);
+    sfx.tick(); n++;
+    if (n >= total){
+      clearInterval(id);
+      const aWin = Math.random() < .5;
+      A.classList.remove("on"); B.classList.remove("on");
+      (aWin ? A : B).classList.add("win");
+      $("#stake").innerHTML = `<b>${aWin ? "SIMI" : "BÁTYÓ"} kezd!</b><br>Tét: ${pick(STAKES)}`;
+      sfx.win(); confetti(80); unlock("who"); spinning = false;
+    }
+  }, 110);
+};
+
+/* ---------- init ---------- */
+renderTrophies(); renderMissions(); applyLocks();
+if (S.trophies.boot && S.gift) { /* returning visitor: still show boot for fun */ }
+})();
+</script>
+</body>
+</html>
